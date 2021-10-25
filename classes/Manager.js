@@ -5,10 +5,5 @@ class Manager {
         this.role = role;
         this.salary = salary;
     }
-    view();
-
-    add();
-
-    update();
 
 };

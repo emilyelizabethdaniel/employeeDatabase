@@ -1,16 +1,15 @@
 class Employee {
-    constructor(firstname, lastname, role, salary, manager = null) {
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.role = role;
-        this.salary = salary;
-        this.manager = manager;
-    }
-    view();
+    constructor(firstname, lastname, role, manager = null) {
+            this.firstname = firstname;
+            this.lastname = lastname;
+            this.role = role;
+            this.manager = manager;
+        }
+        // view();
 
-    add();
+    // add();
 
-    update();
+    // update();
 
 };
 
