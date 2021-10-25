@@ -143,17 +143,16 @@ function addEmployee() {
             }
         })
     })
-}
+};
 
 function init() {
     inquirer.prompt(startQuestion)
         .then((response) => {
-            // let choice = response.title;
-
             if (response.title === "view all departments") {
                 viewDepartments();
             } else if (response.title === "view all roles") {
                 viewRoles();
+                //else if view employees 
             } else if (response.title === "add a department") {
                 inquirer.prompt(departmentAddQuestions)
                     .then((response) => {
@@ -172,6 +171,7 @@ function init() {
                         addEmployee();
                     })
             }
+            // else if update employee {}
         })
 };
 
