@@ -1,0 +1,13 @@
+inquirer questions:
+
+1. view all departments, all roles, all employees, add a department, add a role, add an employee or update employee 
+(7 options)
+2. IF all departments --> formatted table showing department names and department id's 
+    --> query for SELECT * FROM department table
+3. IF all roles --> table showing job title, role id, department of role, and salary
+    --> query for SELECT * FROM department table
+4. IF all employees
+    --> query for SELECT * FROM employee table (role and department I think?)
+5. add a department: enter the name and it is added
+6. add an employee: enter employee fname, lname, role and manager
+7 update an employee: select an employee to update and their new role, info is added
