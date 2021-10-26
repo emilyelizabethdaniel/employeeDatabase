@@ -1,5 +1,6 @@
 const inquirer = require('inquirer');
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
+// const consoleTable = require('console.table');
 
 const startQuestion = [{
     type: 'list',
@@ -57,7 +58,8 @@ const employeeAddQuestions = [{
 
 function viewDepartments() {
     return fetch('http://localhost:3001/api/all-departments')
-        .then(results => { return results })
+        .then(response => response.json())
+        .then(data => console.table(data));
 };
 
 function viewRoles() {
@@ -97,7 +99,11 @@ function initClient() {
         .then((response) => {
             if (response.title === "view all departments") {
                 viewDepartments()
-                    .then(goAgain);
+                    .then((results) => {
+
+                        console.table(results);
+                        goAgain();
+                    });
             } else if (response.title === "view all roles") {
                 viewRoles()
                     .then(goAgain);
