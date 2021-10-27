@@ -30,7 +30,7 @@ app.get("/api/all-roles", (req, res) => {
     })
 });
 app.get('/api/all-employees', (req, res) => {
-    db.query('SELECT * FROM employee', function(err, result) {
+    db.query('SELECT * FROM employee', 'JOIN employee ON roles.id = employee.roles_id', function(err, result) {
         if (err) {
             res.json(err)
         } else {
