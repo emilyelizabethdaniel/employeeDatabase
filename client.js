@@ -1,6 +1,5 @@
 const inquirer = require('inquirer');
 const fetch = require('node-fetch');
-// const consoleTable = require('console.table');
 
 const startQuestion = [{
     type: 'list',
@@ -12,7 +11,7 @@ const startQuestion = [{
 const departmentAddQuestions = [{
     type: 'input',
     message: 'what is the name of the department you would like to add?',
-    name: 'new department'
+    name: 'newDepartment'
 }];
 
 const rolesAddQuestions = [{
@@ -64,22 +63,56 @@ function viewDepartments() {
 
 function viewRoles() {
     return fetch('http://localhost:3001/api/all-roles')
-        .then(results => { return results })
+        .then(response => response.json())
+        .then(data => console.table(data));
 };
 
-function addDepartment() {
-    return fetch('http://localhost:3001/api/add-department')
-        .then(results => { return results })
+function addDepartment(departmentName, ) {
+    return fetch('http://localhost:3001/api/add-department', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                department_name: departmentName
+            }),
+        })
+        .then(response => response.json())
+        .then(data => console.table(data));
 }
 
-function addRole() {
-    return fetch('http://localhost:3001/api/add-role')
-        .then(results => { return results })
+function addRole(title, salary, departmentId) {
+    return fetch('http://localhost:3001/api/add-role', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: title,
+                salary: salary,
+                department_id: departmentId
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.table(data));
+
 };
 
-function addEmployee() {
-    return fetch('http://localhost:3001/api/add-employee')
-        .then(results => { return results })
+function addEmployee(firstName, lastName, roleId, managerId) {
+    return fetch('http://localhost:3001/api/add-employee', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                first_name: firstName,
+                last_name: lastName,
+                role_id: roleId,
+                manager_id: managerId
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.table(data));
 };
 
 const goAgain = () => inquirer.prompt({
@@ -114,8 +147,8 @@ function initClient() {
             } else if (response.title === "add a department") {
                 inquirer.prompt(departmentAddQuestions)
                     .then((response) => {
-                        addDepartment();
-                        viewDepartments();
+                        addDepartment(response.newDepartment)
+                            .then(viewDepartments)
                     })
                     .then(goAgain);
             } else if (response.title === "add a role") {

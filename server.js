@@ -31,6 +31,7 @@ app.get("/api/all-roles", (req, res) => {
 });
 
 app.post("/api/add-department", (req, res) => {
+    console.log('req.body :>> ', req.body);
     let name = req.body.department_name;
     db.query(`INSERT INTO departments (department_name) VALUES ('${name}')`, name, function(err, result) {
         if (err) {
