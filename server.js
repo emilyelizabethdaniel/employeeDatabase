@@ -29,6 +29,15 @@ app.get("/api/all-roles", (req, res) => {
         res.json(result);
     })
 });
+app.get('/api/all-employees', (req, res) => {
+    db.query('SELECT * FROM employee', function(err, result) {
+        if (err) {
+            res.json(err)
+        } else {
+            res.json(result)
+        }
+    })
+})
 
 app.post("/api/add-department", (req, res) => {
     console.log('req.body :>> ', req.body);
@@ -43,11 +52,11 @@ app.post("/api/add-department", (req, res) => {
 });
 
 
-
 app.post("/api/add-role", (req, res) => { // adds a route to the server once the function addRole() is called
+    console.log(req.body);
     let title = req.body.title;
-    let salary = req.body.salary;
-    let department = req.body.department_id;
+    let salary = Number.parseInt(req.body.salary);
+    let department = Number.parseInt(req.body.department_id);
     db.query(`INSERT INTO roles (title, salary, department_id) VALUES('${title}', '${salary}', '${department}')`, [title, salary, department], function(err, result) {
         if (err) {
             res.json(err)
@@ -57,13 +66,11 @@ app.post("/api/add-role", (req, res) => { // adds a route to the server once the
     })
 });
 
-
-
 app.post("/api/add-employee", (req, res) => {
     let firstName = req.body.first_name;
     let lastName = req.body.last_name;
-    let role = req.body.role_id;
-    let manager = req.body.manager_id;
+    let role = Number.parseInt(req.body.role_id);
+    let manager = Number.parseInt(req.body.manager_id);
     db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES('${firstName}', '${lastName}', '${role}', '${manager}')`, [firstName, lastName, role, manager], function(err, result) {
 
         if (err) {

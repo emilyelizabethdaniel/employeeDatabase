@@ -17,7 +17,7 @@ const departmentAddQuestions = [{
 const rolesAddQuestions = [{
         type: 'input',
         message: 'what is the role name?',
-        name: 'role name'
+        name: 'roleName'
     },
     {
         type: 'input',
@@ -67,7 +67,13 @@ function viewRoles() {
         .then(data => console.table(data));
 };
 
-function addDepartment(departmentName, ) {
+function viewEmployees() {
+    return fetch('http://localhost:3001/api/all-employees')
+        .then(response => response.json())
+        .then(data => console.table(data));
+};
+
+function addDepartment(departmentName) {
     return fetch('http://localhost:3001/api/add-department', {
             method: 'POST',
             headers: {
@@ -82,16 +88,19 @@ function addDepartment(departmentName, ) {
 }
 
 function addRole(title, salary, departmentId) {
+    console.log('find the bitch');
+    const data = {
+        title: title,
+        salary: salary,
+        department_id: departmentId
+    }
+    console.log(data);
     return fetch('http://localhost:3001/api/add-role', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                title: title,
-                salary: salary,
-                department_id: departmentId
-            })
+            body: JSON.stringify(data)
         })
         .then(response => response.json())
         .then(data => console.table(data));
@@ -141,8 +150,9 @@ function initClient() {
                 viewRoles()
                     .then(goAgain);
             } else if (response.title === "view all employees") {
-                console.log("Not yet inmplemented");
-                goAgain();
+                viewEmployees()
+                    .then(goAgain);
+
                 //show employees, roles, departments, managers
             } else if (response.title === "add a department") {
                 inquirer.prompt(departmentAddQuestions)
@@ -154,20 +164,20 @@ function initClient() {
             } else if (response.title === "add a role") {
                 inquirer.prompt(rolesAddQuestions)
                     .then((response) => {
-                        addRole();
+                        addRole(response.roleName, response.salary, response.department);
                         viewRoles()
                     })
                     .then(goAgain);
             } else if (response.title === "add an employee") {
                 inquirer.prompt(employeeAddQuestions)
                     .then((response) => {
-                        addEmployee()
+                        addEmployee(response.fname, response.lname, response.role, response.manager)
                     })
                     .then(goAgain);
             } else {
                 inquirer.prompt(updateEmployee)
                     .then((response) => {
-                        updateEmployee();
+                        updateEmployee(response.fname, response.lname, response.role, response.manager);
                         // make updateEmployee variable
                         //make updateEmployee function
                     })
